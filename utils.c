@@ -52,6 +52,26 @@ int	ft_strlen( const char *str )
 }
 
 /**
+ * @brief returns pointer to first occurence of a given char in str. NULL if not found.
+ * 
+ * @param str 
+ * @param to_find 
+ * @return char* 
+ */
+char	*ft_strchr( char *str, char to_find )
+{
+	int	i = 0;
+
+	while ( str[ i ] )
+	{
+		if ( str[ i ] == to_find )
+			return &str[ i ];
+		++i;
+	}
+	return NULL;
+}
+
+/**
  * @brief return nb of char between index 0 of str and end_str
  * 
  * @param str 
@@ -140,6 +160,37 @@ char	*ft_strdup( const char *str )
 	{
 		new_str[ i ] = str[ i ];
 	} while ( str[ ++i ] );
+	new_str[ i ] = '\0';
+
+	return new_str;
+}
+
+/**
+ * @brief allocates and return a copy of the first len characters a given string
+ * 
+ * @param str 
+ * @param len
+ * @return char* 
+ */
+char	*ft_strndup( const char *str, const int len )
+{
+	char	*new_str;
+	int		i = 0;
+	int		str_len = ft_strlen( str );
+
+	if ( len < 1 )
+		return ft_strdup( "" );
+	if ( str_len > len )
+		str_len = len;
+
+	new_str = malloc( sizeof( char ) * ( str_len + 1 ) );
+	if ( !new_str )
+		return NULL;
+
+	do
+	{
+		new_str[ i ] = str[ i ];
+	} while ( ++i < str_len );
 	new_str[ i ] = '\0';
 
 	return new_str;
@@ -242,4 +293,28 @@ char	**ft_split( const char *str, const char *separator )
 	array[ words_count ] = NULL;
 
 	return array;
+}
+
+/**
+ * @brief allocate and returns a copy of given string starting from i_start index
+ * 
+ * @param str 
+ * @param i_start 
+ * @param free_arg
+ * 		if 1: free str before return, else do nothing.
+ * @return char* 
+ */
+char	*ft_substr_f( char *str, const int i_start, const int free_arg )
+{
+	char	*new_str;
+
+	if ( i_start < 0 )
+		return NULL;
+
+	new_str = ft_strdup( &str[ i_start ] );
+
+	if ( free_arg )
+		ret_free( 0, str );
+
+	return new_str;
 }
